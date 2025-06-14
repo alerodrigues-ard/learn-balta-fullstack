@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Dima.Core.Enums;
 
 namespace Dima.Core.Models;
 
@@ -14,7 +10,7 @@ internal class Transaction
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     public DateTime? PaidOrReceivedAt { get; set; }
 
-    public int Type { get; set; }
+    public ETransactionType Type { get; set; } = ETransactionType.Withdrawal;
 
     public decimal Amount { get; set; }
 
