@@ -10,6 +10,8 @@ builder.Services.AddSwaggerGen( // Necessário para o Swagger
         x.CustomSchemaIds(type => type.FullName ?? type.Name); // Necessário para o Swagger colocar o Full Qualified Name
     });
 
+builder.Services.AddTransient<Handler>(); // Registra o Handler como um serviço transitório
+
 var app = builder.Build();
 
 app.UseSwagger(); // Necessário para o Swagger
@@ -19,7 +21,7 @@ app.UseSwaggerUI();
 
 app.MapPost("/v1/transactions", (Request request, Handler handler) => handler.Handle(request))
     .WithName("Transactions: Create")           // Ajuda na documentação do Swagger
-    .WithSummary("Cria uma nova transa��o")     // Ajuda na documentação do Swagger
+    .WithSummary("Cria uma nova transação")     // Ajuda na documentação do Swagger
     .Produces<Response>();                      // Garante que a resposta ser� do tipo Response
 
 //app.MapPut("/v1/transactions", () => "API is Running");
