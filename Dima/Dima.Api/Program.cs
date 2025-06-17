@@ -1,31 +1,26 @@
 using Dima.Core.Enums;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Swagger
+builder.Services.AddEndpointsApiExplorer(); // NecessÃ¡rio para o Swagger
+builder.Services.AddSwaggerGen( // NecessÃ¡rio para o Swagger
+    x =>
+    {
+        x.CustomSchemaIds(type => type.FullName ?? type.Name); // NecessÃ¡rio para o Swagger colocar o Full Qualified Name
+    });
+
 var app = builder.Build();
 
-// Request
-// GET, POST, PUT, DELETE
-// Obter, Criar, Atualizar, Excluir - CRUD
-// GET (NÃO DEVE TER CORPO NA REQUISIÇÃO)
-// Requisição -> Cabeçalho (Headers) + Corpo (Body)
-// Cabeçalho: http://localhost:5000/v1/categories/1
-// POST, PUT, DELETE (DEVE TER CORPO NA REQUISIÇÃO - DELETE É OPCIONAL)
-// JSON - JavaScript Object Notation
-// Exemplo de JSON: { "name": "Alexandre" }
-//
-// Binding -> Vínculo, Ligação, Elo
-// Transformar o objeto JSON em um objeto C#
-//
-// Response
-// Tem cabeçalho e corpo
-// Status Code: 200, 201, 204, 400, 404, 500, etc.
+app.UseSwagger(); // NecessÃ¡rio para o Swagger
+app.UseSwaggerUI();
 
 //app.MapGet("/v1/transactions", () => "API is Running");
 
 app.MapPost("/v1/transactions", (Request request, Handler handler) => handler.Handle(request))
-    .WithName("Transactions: Create")           // Ajuda na documentação do Swagger
-    .WithSummary("Cria uma nova transação")     // Ajuda na documentação do Swagger
-    .Produces<Response>();                      // Garante que a resposta será do tipo Response
+    .WithName("Transactions: Create")           // Ajuda na documentaÃ§Ã£o do Swagger
+    .WithSummary("Cria uma nova transaï¿½ï¿½o")     // Ajuda na documentaÃ§Ã£o do Swagger
+    .Produces<Response>();                      // Garante que a resposta serï¿½ do tipo Response
 
 //app.MapPut("/v1/transactions", () => "API is Running");
 //app.MapDelete("/v1/transactions", () => "API is Running");
@@ -64,7 +59,7 @@ public class Handler
 {
     public Response Handle(Request request)
     {
-        // Aqui você pode implementar a lógica para criar uma nova transação
+        // Aqui vocÃª pode implementar a lÃ³gica para criar uma nova transaï¿½ï¿½o
         // Por exemplo, salvar no banco de dados e retornar a resposta
         return new Response
         {
