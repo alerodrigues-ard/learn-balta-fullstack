@@ -1,3 +1,5 @@
+using Dima.Core.Enums;
+
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
@@ -18,9 +20,28 @@ var app = builder.Build();
 // Tem cabeçalho e corpo
 // Status Code: 200, 201, 204, 400, 404, 500, etc.
 
-app.MapGet("/v1/categories", () => "API is Running");
-app.MapPost("/v1/categories", () => "API is Running");
-app.MapPut("/v1/categories", () => "API is Running");
-app.MapDelete("/v1/categories", () => "API is Running");
+//app.MapGet("/v1/transactions", () => "API is Running");
+app.MapPost("/v1/transactions", () => new { message = "API is Running" });
+//app.MapPut("/v1/transactions", () => "API is Running");
+//app.MapDelete("/v1/transactions", () => "API is Running");
+
 
 app.Run();
+
+// Request
+public class Request
+{
+    public string Title { get; set; } = string.Empty;
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
+//    public DateTime? PaidOrReceivedAt { get; set; }
+    public int /*ETransactionType*/ Type { get; set; } //= ETransactionType.Withdrawal;
+    public decimal Amount { get; set; }
+    public long CategoryId { get; set; }
+    public string UserId { get; set; } = string.Empty;
+}
+
+
+// Response
+
+// Handler
+
