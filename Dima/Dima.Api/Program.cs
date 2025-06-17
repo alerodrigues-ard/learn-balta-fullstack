@@ -18,9 +18,9 @@ var app = builder.Build();
 // Tem cabeçalho e corpo
 // Status Code: 200, 201, 204, 400, 404, 500, etc.
 
-app.MapGet("/categories", () => "API is Running");
-app.MapPost("/categories", () => "API is Running");
-app.MapPut("/categories", () => "API is Running");
-app.MapDelete("/categories", () => "API is Running");
+app.MapGet("/v1/categories", () => "API is Running");
+app.MapPost("/v1/categories", () => "API is Running");
+app.MapPut("/v1/categories", () => "API is Running");
+app.MapDelete("/v1/categories", () => "API is Running");
 
 app.Run();
