@@ -22,11 +22,7 @@ var app = builder.Build();
 
 //app.MapGet("/v1/transactions", () => "API is Running");
 
-app.MapPost("/v1/transactions", (Request request) => new Response
-    {
-        Id = 1,
-        Title = "Nova Transação",
-    })
+app.MapPost("/v1/transactions", (Request request, Handler handler) => handler.Handle(request))
     .WithName("Transactions: Create")           // Ajuda na documentação do Swagger
     .WithSummary("Cria uma nova transação")     // Ajuda na documentação do Swagger
     .Produces<Response>();                      // Garante que a resposta será do tipo Response
@@ -64,4 +60,21 @@ public class Response
 
 
 // Handler
-
+public class Handler
+{
+    public Response Handle(Request request)
+    {
+        // Aqui você pode implementar a lógica para criar uma nova transação
+        // Por exemplo, salvar no banco de dados e retornar a resposta
+        return new Response
+        {
+            Id = 1, // Simulando um ID gerado pelo banco de dados
+            Title = request.Title,
+            CreatedAt = request.CreatedAt,
+            Type = request.Type,
+            Amount = request.Amount,
+            CategoryId = request.CategoryId,
+            UserId = request.UserId
+        };
+    }
+}
