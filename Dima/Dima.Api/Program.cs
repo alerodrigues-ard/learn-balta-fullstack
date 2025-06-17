@@ -21,7 +21,16 @@ var app = builder.Build();
 // Status Code: 200, 201, 204, 400, 404, 500, etc.
 
 //app.MapGet("/v1/transactions", () => "API is Running");
-app.MapPost("/v1/transactions", () => new { message = "API is Running" });
+
+app.MapPost("/v1/transactions", (Request request) => new Response
+    {
+        Id = 1,
+        Title = "Nova Transação",
+    })
+    .WithName("Transactions: Create")           // Ajuda na documentação do Swagger
+    .WithSummary("Cria uma nova transação")     // Ajuda na documentação do Swagger
+    .Produces<Response>();                      // Garante que a resposta será do tipo Response
+
 //app.MapPut("/v1/transactions", () => "API is Running");
 //app.MapDelete("/v1/transactions", () => "API is Running");
 
@@ -34,14 +43,25 @@ public class Request
     public string Title { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; } = DateTime.Now;
 //    public DateTime? PaidOrReceivedAt { get; set; }
-    public int /*ETransactionType*/ Type { get; set; } //= ETransactionType.Withdrawal;
+    public int /*ETransactionType*/ Type { get; set; } // = ETransactionType.Withdrawal;
     public decimal Amount { get; set; }
     public long CategoryId { get; set; }
     public string UserId { get; set; } = string.Empty;
 }
 
-
 // Response
+public class Response
+{
+    public long Id { get; set; }
+    public string Title { get; set; } = string.Empty;
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public DateTime? PaidOrReceivedAt { get; set; }
+    public int /*ETransactionType*/ Type { get; set; } // = ETransactionType.Withdrawal;
+    public decimal Amount { get; set; }
+    public long CategoryId { get; set; }
+    public string UserId { get; set; } = string.Empty;
+}
+
 
 // Handler
 
