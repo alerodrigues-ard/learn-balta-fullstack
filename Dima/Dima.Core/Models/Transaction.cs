@@ -2,7 +2,7 @@
 
 namespace Dima.Core.Models;
 
-internal class Transaction
+public class Transaction
 {
     public long Id { get; set; }
     public string Title { get; set; } = string.Empty;

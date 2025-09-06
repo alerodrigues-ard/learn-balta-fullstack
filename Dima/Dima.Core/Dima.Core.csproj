@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Requests\Categories\" />
+    <Folder Include="Responses\Categories\" />
+  </ItemGroup>
+
 </Project>
