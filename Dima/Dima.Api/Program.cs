@@ -11,6 +11,7 @@ builder.Services.AddSwaggerGen( // Necessário para o Swagger
     });
 
 builder.Services.AddTransient<Handler>(); // Registra o Handler como um serviço transitório
+// builder.Services.AddTransient<ICategoryHandler, CategoryHandler>(); // Registra o Handler como um serviço transitório
 
 var app = builder.Build();
 
@@ -23,6 +24,15 @@ app.MapPost("/v1/transactions", (Request request, Handler handler) => handler.Ha
     .WithName("Transactions: Create")           // Ajuda na documentação do Swagger
     .WithSummary("Cria uma nova transação")     // Ajuda na documentação do Swagger
     .Produces<Response>();                      // Garante que a resposta ser� do tipo Response
+/*
+app.MapPost("/v1/categories",
+                    (CreateGategoryRequest request,
+                     ICategoryHandler handler) 
+                => handler.CreateAsync(request))
+    .WithName("Categories: Create")
+    .WithSummary("Cria uma nova categoria")
+    .Produces<Response<Category>>();
+*/
 
 //app.MapPut("/v1/transactions", () => "API is Running");
 //app.MapDelete("/v1/transactions", () => "API is Running");
@@ -61,7 +71,7 @@ public class Handler
 {
     public Response Handle(Request request)
     {
-        // Aqui você pode implementar a lógica para criar uma nova transa��o
+        // Aqui você pode implementar a lógica para criar uma nova transação
         // Por exemplo, salvar no banco de dados e retornar a resposta
         return new Response
         {
