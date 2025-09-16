@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 using Dima.Core.Models;
 
 namespace Dima.Api.Data;
@@ -11,6 +12,9 @@ public class AppDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder) 
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.ApplyConfiguration();
+        
+        // Aplica as configurações de todas as classes que implementam
+        // IEntityTypeConfiguration dentro do Assembly
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }
