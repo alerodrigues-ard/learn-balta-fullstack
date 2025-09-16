@@ -1,6 +1,17 @@
+using Dima.Api.Data;
 using Dima.Core.Enums;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var connString = builder
+    .Configuration
+    .GetConnectionString("DefaultConnection") ?? string.Empty;
+
+builder.Services.AddDbContext<AppDbContext>(x =>
+{
+    x.UseSqlServer(connString);
+});
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer(); // Necessário para o Swagger
