@@ -1,5 +1,6 @@
 using Dima.Api.Data;
 using Dima.Core.Enums;
+using Dima.Core.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,21 +30,21 @@ var app = builder.Build();
 app.UseSwagger(); // Necessário para o Swagger
 app.UseSwaggerUI();
 
-//app.MapGet("/v1/transactions", () => "API is Running");
-
+/*
 app.MapPost("/v1/transactions", (Request request, Handler handler) => handler.Handle(request))
     .WithName("Transactions: Create")           // Ajuda na documentação do Swagger
     .WithSummary("Cria uma nova transação")     // Ajuda na documentação do Swagger
     .Produces<Response>();                      // Garante que a resposta ser� do tipo Response
-/*
+*/
+
 app.MapPost("/v1/categories",
-                    (CreateGategoryRequest request,
-                     ICategoryHandler handler) 
-                => handler.CreateAsync(request))
+                    (Request request,
+                     Handler handler) 
+                => handler.Handle(request))
     .WithName("Categories: Create")
     .WithSummary("Cria uma nova categoria")
-    .Produces<Response<Category>>();
-*/
+    .Produces<Response>();
+
 
 //app.MapPut("/v1/transactions", () => "API is Running");
 //app.MapDelete("/v1/transactions", () => "API is Running");
@@ -55,6 +56,7 @@ app.Run();
 public class Request
 {
     public string Title { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; } = DateTime.Now;
 //    public DateTime? PaidOrReceivedAt { get; set; }
     public int /*ETransactionType*/ Type { get; set; } // = ETransactionType.Withdrawal;
@@ -78,21 +80,30 @@ public class Response
 
 
 // Handler
-public class Handler
+public class Handler(AppDbContext context)
 {
     public Response Handle(Request request)
     {
+        var category = new Category
+        {
+            Title = request.Title,
+            Description = request.Description
+        };
+        
+        context.Categories.Add(category);
+        context.SaveChanges();
+        
         // Aqui você pode implementar a lógica para criar uma nova transação
         // Por exemplo, salvar no banco de dados e retornar a resposta
         return new Response
         {
-            Id = 1, // Simulando um ID gerado pelo banco de dados
-            Title = request.Title,
-            CreatedAt = request.CreatedAt,
-            Type = request.Type,
-            Amount = request.Amount,
-            CategoryId = request.CategoryId,
-            UserId = request.UserId
+            Id = category.Id, // Simulando um ID gerado pelo banco de dados
+            Title = category.Title,
+            // CreatedAt = category.CreatedAt,
+            // Type = category.Type,
+            // Amount = category.Amount,
+            // CategoryId = category.CategoryId,
+            // UserId = category.UserId
         };
     }
 }
