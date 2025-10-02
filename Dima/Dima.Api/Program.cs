@@ -1,6 +1,8 @@
 using Dima.Api.Data;
 using Dima.Core.Enums;
 using Dima.Core.Models;
+using Dima.Core.Requests.Categories;
+using Dima.Core.Responses;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,24 +32,13 @@ var app = builder.Build();
 app.UseSwagger(); // Necessário para o Swagger
 app.UseSwaggerUI();
 
-/*
-app.MapPost("/v1/transactions", (Request request, Handler handler) => handler.Handle(request))
-    .WithName("Transactions: Create")           // Ajuda na documentação do Swagger
-    .WithSummary("Cria uma nova transação")     // Ajuda na documentação do Swagger
-    .Produces<Response>();                      // Garante que a resposta ser� do tipo Response
-*/
-
 app.MapPost("/v1/categories",
-                    (Request request,
+                    (CreateCategoryRequest request,
                      Handler handler) 
                 => handler.Handle(request))
     .WithName("Categories: Create")
     .WithSummary("Cria uma nova categoria")
-    .Produces<Response>();
-
-
-//app.MapPut("/v1/transactions", () => "API is Running");
-//app.MapDelete("/v1/transactions", () => "API is Running");
+    .Produces<Response<Category>>();
 
 
 app.Run();
