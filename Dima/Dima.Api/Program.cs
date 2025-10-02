@@ -29,7 +29,7 @@ builder.Services.AddTransient<Handler>(); // Registra o Handler como um serviço
 
 var app = builder.Build();
 
-app.UseSwagger(); // Necessário para o Swagger
+app.UseSwagger();
 app.UseSwaggerUI();
 
 app.MapPost("/v1/categories",
