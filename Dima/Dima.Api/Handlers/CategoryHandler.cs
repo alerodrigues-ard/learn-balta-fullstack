@@ -111,8 +111,9 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
                 .Where(x => x.UserId == request.UserId);
 
             var categories = await query
-                .Skip(request.PageSize * request.PageNumber)
+                .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
+                .OrderBy(x => x.Title)
                 .ToListAsync();
             
             var count = await query.CountAsync();
