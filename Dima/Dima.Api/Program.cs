@@ -1,5 +1,6 @@
 using Dima.Api.Data;
-using Dima.Core.Enums;
+using Dima.Api.Handlers;
+using Dima.Core.Handlers;
 using Dima.Core.Models;
 using Dima.Core.Requests.Categories;
 using Dima.Core.Responses;
@@ -23,9 +24,7 @@ builder.Services.AddSwaggerGen( // Necessário para o Swagger
     {
         x.CustomSchemaIds(type => type.FullName ?? type.Name); // Necessário para o Swagger colocar o Full Qualified Name
     });
-
-builder.Services.AddTransient<Handler>(); // Registra o Handler como um serviço transitório
-// builder.Services.AddTransient<ICategoryHandler, CategoryHandler>(); // Registra o Handler como um serviço transitório
+builder.Services.AddTransient<ICategoryHandler, CategoryHandler>(); // Registra o Handler como um serviço transitório
 
 var app = builder.Build();
 
@@ -34,7 +33,7 @@ app.UseSwaggerUI();
 
 app.MapPost("/v1/categories",
                     (CreateCategoryRequest request,
-                     Handler handler) 
+                     ICategoryHandler handler) 
                 => handler.Handle(request))
     .WithName("Categories: Create")
     .WithSummary("Cria uma nova categoria")
