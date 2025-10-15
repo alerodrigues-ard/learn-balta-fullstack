@@ -10,6 +10,10 @@ public class CreateCategoryEndpoint : IEndpoint
 {
     public static void Map(IEndpointRouteBuilder app)
         => app.MapPost("/", HandleAsync)
+            .WithName("Categories: Create")
+            .WithSummary("Cria uma nova categoria")
+            .WithDescription("Cria uma nova categoria")
+            .WithOrder(1)
             .Produces<Response<Category?>>();
 
     private static async Task<IResult> HandleAsync(
@@ -18,10 +22,9 @@ public class CreateCategoryEndpoint : IEndpoint
     {
         var result = await handler.CreateAsync(request);
 
-        if (result.IsSuccess)
-            return Results.Created($"/{result?.Data?.Id}", result);
-        
-        return Results.BadRequest(result.Data);
+        return result.IsSuccess 
+            ? Results.Created($"/{result.Data?.Id}", result) 
+            : Results.BadRequest(result.Data);
     }
  
 }
