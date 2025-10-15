@@ -29,6 +29,6 @@ public class UpdateCategoryEndpoint : IEndpoint
         
         return result.IsSuccess 
             ? TypedResults.Ok(result) 
-            : TypedResults.BadRequest(result.Data);
+            : TypedResults.BadRequest(result);
     }
 }
