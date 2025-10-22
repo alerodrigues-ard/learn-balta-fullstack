@@ -86,9 +86,22 @@ public class TransactionHandler(AppDbContext context) : ITransactionHandler
         }
     }
 
-    public Task<Response<Transaction?>> GetByIdAsync(GetTransactionByIdRequest request)
+    public async Task<Response<Transaction?>> GetByIdAsync(GetTransactionByIdRequest request)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var transaction = await context
+                .Transactions
+                .FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+
+            return transaction is null
+                ? new Response<Transaction?>(null, 404, "Transação não encontrada")
+                : new Response<Transaction?>(transaction, 200, "Transação recuperada com sucesso");
+        }
+        catch
+        {
+            return new Response<Transaction?>(null, 500, "Não foi possível recuperar a transação");
+        }
     }
 
     public Task<PagedResponse<List<Transaction>?>> GetByPeriodAsync(GetTransactionsByPeriordRequest request)
