@@ -25,7 +25,10 @@ builder.Services.AddSwaggerGen( // Necessário para o Swagger
     {
         x.CustomSchemaIds(type => type.FullName ?? type.Name); // Necessário para o Swagger colocar o Full Qualified Name
     });
-builder.Services.AddTransient<ICategoryHandler, CategoryHandler>(); // Registra o Handler como um serviço transitório
+
+builder.Services.AddTransient<ICategoryHandler, CategoryHandler>();
+
+builder.Services.AddTransient<ITransactionHandler, TransactionHandler>();
 
 var app = builder.Build();
 
