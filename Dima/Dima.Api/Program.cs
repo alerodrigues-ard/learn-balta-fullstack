@@ -2,9 +2,7 @@ using Dima.Api.Data;
 using Dima.Api.Endpoints;
 using Dima.Api.Handlers;
 using Dima.Core.Handlers;
-using Dima.Core.Models;
-using Dima.Core.Requests.Categories;
-using Dima.Core.Responses;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,6 +27,12 @@ builder.Services.AddSwaggerGen( // Necessário para o Swagger
 builder.Services.AddTransient<ICategoryHandler, CategoryHandler>();
 
 builder.Services.AddTransient<ITransactionHandler, TransactionHandler>();
+
+// A ordem das duas chamadas abaixo deve ser mantida
+builder.Services                                                // Quem você é?
+    .AddAuthentication(IdentityConstants.ApplicationScheme)
+    .AddIdentityCookies();
+builder.Services.AddAuthorization();        // O que você pode fazer?
 
 var app = builder.Build();
 
