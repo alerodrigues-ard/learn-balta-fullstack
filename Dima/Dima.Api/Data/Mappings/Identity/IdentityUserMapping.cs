@@ -17,14 +17,14 @@ public class IdentityUserMapping : IEntityTypeConfiguration<User>
 
         builder.Property(u => u.Email).HasMaxLength(180);
         builder.Property(u => u.NormalizedEmail).HasMaxLength(180);
-        builder.Property(u => u.UserName).HasMaxLength(180);
+        builder.Property(u => u.UserName).HasMaxLength(180).IsRequired();
         builder.Property(u => u.NormalizedUserName).HasMaxLength(180);
         builder.Property(u => u.PhoneNumber).HasMaxLength(20);
         builder.Property(u => u.ConcurrencyStamp).IsConcurrencyToken();
         
-        builder.HasMany<IdentityUserClaim<uint>>().WithOne().HasForeignKey(uc => uc.UserId).IsRequired();
-        builder.HasMany<IdentityUserLogin<uint>>().WithOne().HasForeignKey(uc => uc.UserId).IsRequired();
-        builder.HasMany<IdentityUserToken<uint>>().WithOne().HasForeignKey(uc => uc.UserId).IsRequired();
-        builder.HasMany<IdentityUserRole<uint>>().WithOne().HasForeignKey(uc => uc.UserId).IsRequired();
+        builder.HasMany<IdentityUserClaim<long>>().WithOne().HasForeignKey(uc => uc.UserId).IsRequired();
+        builder.HasMany<IdentityUserLogin<long>>().WithOne().HasForeignKey(uc => uc.UserId).IsRequired();
+        builder.HasMany<IdentityUserToken<long>>().WithOne().HasForeignKey(uc => uc.UserId).IsRequired();
+        builder.HasMany<IdentityUserRole<long>>().WithOne().HasForeignKey(uc => uc.UserId).IsRequired();
     }
 }

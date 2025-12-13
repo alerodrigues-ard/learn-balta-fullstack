@@ -45,6 +45,10 @@ builder.Services.AddTransient<ITransactionHandler, TransactionHandler>();
 
 var app = builder.Build();
 
+// As suas chamadas abaixo devem estar nesta ordem
+app.UseAuthentication();    // Quem eu sou
+app.UseAuthorization();     // O que eu posso fazer
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
