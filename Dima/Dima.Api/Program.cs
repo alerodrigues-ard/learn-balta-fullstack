@@ -1,6 +1,7 @@
 using Dima.Api.Data;
 using Dima.Api.Endpoints;
 using Dima.Api.Handlers;
+using Dima.Api.Models;
 using Dima.Core.Handlers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +25,12 @@ builder.Services                                                // Quem você é
     .AddAuthentication(IdentityConstants.ApplicationScheme)
     .AddIdentityCookies();
 builder.Services.AddAuthorization();        // O que você pode fazer?
+
+builder.Services
+    .AddIdentityCore<User>() // Classe User customizada - O padrão é IdentityUser
+    .AddRoles<IdentityRole<long>>() // IdentityRole padrão usando long
+    .AddEntityFrameworkStores<AppDbContext>() // Armazenamento dos dados dados de identity
+    .AddApiEndpoints(); // Cadastro padrão de endpoints da API
 
 builder.Services.AddDbContext<AppDbContext>(x =>
 {
