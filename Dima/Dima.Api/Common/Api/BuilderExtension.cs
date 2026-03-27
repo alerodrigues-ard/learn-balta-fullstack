@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Dima.Api.Common.Api;
 
-public static class BuilderExtensions
+public static class BuilderExtension
 {
     public static void AddConfiguration(this WebApplicationBuilder builder)
     {
