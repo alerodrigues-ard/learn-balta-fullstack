@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using Dima.Api.Common.Api;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Dima.Api.Data;
@@ -6,14 +7,12 @@ using Dima.Api.Handlers;
 using Dima.Api.Models;
 using Dima.Core.Handlers;
 using Dima.Api.Endpoints;
+using Dima.Core;
 using Microsoft.OpenApi;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
-var connString = builder
-    .Configuration
-    .GetConnectionString("DefaultConnection") ?? string.Empty;
+builder.AddConfiguration();
 
 // Swagger
 // OpenAPI nativo .NET 10
@@ -49,7 +48,7 @@ builder.Services
 
 builder.Services.AddDbContext<AppDbContext>(x =>
 {
-    x.UseSqlServer(connString);
+    x.UseSqlServer(Configuration.ConnectionString);
 });
 
 
