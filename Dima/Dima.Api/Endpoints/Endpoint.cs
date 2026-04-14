@@ -4,6 +4,7 @@ using Dima.Api.Endpoints.Transactions;
 using Dima.Api.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using Dima.Api.Endpoints.Identity;
 
 namespace Dima.Api.Endpoints;
 
@@ -35,6 +36,15 @@ public static class Endpoint
             .MapEndpoint<DeleteTransactionEndpoint>()
             .MapEndpoint<GetTransactionByIdEndpoint>()
             .MapEndpoint<GetTransactionsByPeriodEndpoint>();
+
+        endpoints.MapGroup("v1/identity")
+            .WithTags("Identity")
+            .MapIdentityApi<User>();
+
+        endpoints.MapGroup("v1/identity")
+            .WithTags("Identity")
+            .MapEndpoint<LogoutEndpoint>()
+            .MapEndpoint<GetRolesEndpoint>();
 
     }
 
