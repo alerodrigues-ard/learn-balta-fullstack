@@ -26,4 +26,8 @@
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Layout\HeadlessLayout" />
+  </ItemGroup>
+
 </Project>
