@@ -18,7 +18,7 @@ public class CookieAuthenticationStateProvider(IHttpClientFactory clientFactory)
 
     public override Task<AuthenticationState> GetAuthenticationStateAsync()
     {
-        
+        throw new NotImplementedException();
     }
 
     private async Task<User?> GetUser()
@@ -27,7 +27,7 @@ public class CookieAuthenticationStateProvider(IHttpClientFactory clientFactory)
         {
             return await _client.GetFromJsonAsync<User?>("v1/identity/manage/info");
         }
-        catch (Exception e)
+        catch (Exception)
         {
             return null;
         }
@@ -40,6 +40,41 @@ public class CookieAuthenticationStateProvider(IHttpClientFactory clientFactory)
             new(ClaimTypes.Name, user.Email), 
             new(ClaimTypes.Email, user.Email) 
         };
+
+        // Adiciona os demais Claims que não são Name e Email
+        claims.AddRange(
+            user.Claims.Where(x =>
+                x.Key != ClaimTypes.Name &&
+                x.Key != ClaimTypes.Email)
+                .Select(x => new Claim(x.Key, x.Value))
+        );
+
+        RoleClaim[]? roles;
+        try
+        {
+            roles = await _client.GetFromJsonAsync<RoleClaim[]>("v1/identity/roles");
+        }
+        catch (Exception)
+        {
+            return claims;
+        }
+
+        // Versão foreach
+        foreach (var role in roles ?? [])
+        {
+            if (!string.IsNullOrEmpty(role.Type) && !string.IsNullOrEmpty(role.Value))
+                claims.Add(new Claim(role.Type, role.Value, role.ValueType, role.Issuer, role.OriginalIssuer));
+        }
+
+        // Versão LINQ
+        // claims.AddRange(
+        //     from role in roles ?? []
+        //     let roleType = role.Type
+        //     where roleType != null
+        //     let value = role.Value
+        //     where value != null
+        //     where !string.IsNullOrEmpty(roleType) && !string.IsNullOrEmpty(value) 
+        //     select new Claim(roleType, value, role.ValueType, role.Issuer, role.OriginalIssuer));
 
         return claims;
     }
