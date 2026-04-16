@@ -32,4 +32,8 @@
     <None Remove="Layout\HeadlessLayout" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Dima.Core\Dima.Core.csproj" />
+  </ItemGroup>
+
 </Project>
