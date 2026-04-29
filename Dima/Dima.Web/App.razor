@@ -1,10 +1,16 @@
-﻿<Router AppAssembly="@typeof(App).Assembly" NotFoundPage="typeof(Pages.NotFound)">
-    <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)"/>
-        
-        @* A linha abaixo faz com que a página procure um elemento h1 e 
+﻿<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(App).Assembly" NotFoundPage="typeof(Pages.NotFound)">
+        <Found Context="routeData">
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                <NotAuthorized>
+                    <h1>Você não tem acesso a esta funcionalidade.</h1>
+                </NotAuthorized>
+            </AuthorizeRouteView>
+            
+            @* A linha abaixo faz com que a página procure um elemento h1 e 
            selecione-o automaticamente para acessibilidade *@
-        @* <FocusOnNavigate RouteData="@routeData" Selector="h1" /> *@
-        
-    </Found>
-</Router>
+            @* <FocusOnNavigate RouteData="@routeData" Selector="h1" /> *@
+
+        </Found>
+    </Router>
+</CascadingAuthenticationState>
