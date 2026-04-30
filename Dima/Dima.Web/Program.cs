@@ -1,3 +1,4 @@
+using Dima.Core.Handlers;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
@@ -28,5 +29,7 @@ builder.Services.AddHttpClient(Configuration.HttpClienName, options =>
 {
     options.BaseAddress = new Uri(Configuration.BackendUrl);
 }).AddHttpMessageHandler<CookieHandler>();
+
+builder.Services.AddTransient<IAccountHandler, IAccountHandler>();
 
 await builder.Build().RunAsync();
