@@ -1,5 +1,5 @@
 ﻿<CascadingAuthenticationState>
-    <Router AppAssembly="@typeof(App).Assembly" NotFoundPage="typeof(Pages.NotFound)">
+    <Router AppAssembly="@typeof(App).Assembly">
         <Found Context="routeData">
             <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
                 <NotAuthorized>
@@ -8,9 +8,16 @@
             </AuthorizeRouteView>
             
             @* A linha abaixo faz com que a página procure um elemento h1 e 
-           selecione-o automaticamente para acessibilidade *@
+               selecione-o automaticamente para acessibilidade *@
             @* <FocusOnNavigate RouteData="@routeData" Selector="h1" /> *@
-
+        
         </Found>
+        <NotFound>
+            <PageTitle>Not found</PageTitle>
+            <LayoutView Layout="@typeof(MainLayout)">
+                <h1>Erro 404</h1>
+                <p>Página não encontrada</p>
+            </LayoutView>
+        </NotFound>
     </Router>
 </CascadingAuthenticationState>
